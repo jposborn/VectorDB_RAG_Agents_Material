@@ -1,9 +1,9 @@
 #%% packages
-from langchain.document_loaders import Docx2txtLoader
+from langchain_core.document_loaders import Docx2txtLoader
 from langchain_community.embeddings.sentence_transformer import SentenceTransformerEmbeddings
 from langchain_openai.embeddings import OpenAIEmbeddings
 from transformers import AutoTokenizer
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv(usecwd=True))
 #%% Embeddings Model

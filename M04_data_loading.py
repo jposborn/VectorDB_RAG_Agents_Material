@@ -1,6 +1,6 @@
 #%% Packages
 from langchain_community.document_loaders import TextLoader, YoutubeLoader, WikipediaLoader, PyPDFLoader, DirectoryLoader, UnstructuredFileLoader, Docx2txtLoader
-from langchain.schema import Document
+from langchain_core.documents import Document
 import os
 from pprint import pprint
 

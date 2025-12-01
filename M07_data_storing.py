@@ -1,10 +1,10 @@
 #%% Packages
 import os
-from langchain.document_loaders import TextLoader
+from langchain_core.document_loaders import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.embeddings.sentence_transformer import SentenceTransformerEmbeddings
-from langchain.vectorstores import Chroma
-from langchain.schema import Document
+from langchain_core.vectorstores import Chroma
+from langchain_core.documents import Document
 from langchain_community.document_loaders import GutenbergLoader
 
 #%% load the text and split it

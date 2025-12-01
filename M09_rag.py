@@ -1,5 +1,5 @@
 #%% Packages
-from langchain.vectorstores import Chroma
+from langchain_core.vectorstores import Chroma
 from langchain_community.embeddings.sentence_transformer import SentenceTransformerEmbeddings
 from pprint import pprint
 from dotenv import load_dotenv
