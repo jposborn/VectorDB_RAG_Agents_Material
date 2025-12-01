@@ -5,20 +5,33 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
+from langchain_ollama import ChatOllama
 from dotenv import load_dotenv
 load_dotenv()
-# %% OpenAI models
-# https://platform.openai.com/docs/models/overview
-MODEL_NAME = 'gpt-3.5-turbo'
-model = ChatOpenAI(model_name=MODEL_NAME,
-                   temperature=0.5, # controls creativity
-                   api_key=os.getenv('OPENAI_API_KEY'))
 
-# %% GROQ models
-# https://console.groq.com/docs/models
-MODEL_NAME = 'llama-3.1-8b-instant'
-model = ChatGroq(model_name=MODEL_NAME, 
-                 api_key=os.getenv('GROQ_API_KEY'))
+# %% OpenAI models
+# 
+model = ChatOllama(
+    model="llama3",            # name from `ollama list`
+    # base_url="http://localhost:11434",  # default, override if needed
+)
+
+
+# # %% OpenAI models
+# # https://platform.openai.com/docs/models/overview
+# MODEL_NAME = 'gpt-3.5-turbo'
+# model = ChatOpenAI(
+#                     model_name=MODEL_NAME,
+#                     temperature=0.5, # controls creativity
+#                     api_key=os.getenv('OPENAI_API_KEY'))
+
+# # %% GROQ models
+# # https://console.groq.com/docs/models
+# MODEL_NAME = 'llama-3.1-8b-instant'
+# model = ChatGroq(
+#                 model_name=MODEL_NAME, 
+#                 api_key=os.getenv('GROQ_API_KEY')
+#                 )
 
 # %% Basic Example
 res = model.invoke("What is a LangChain?")
