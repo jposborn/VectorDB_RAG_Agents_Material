@@ -1,23 +1,33 @@
 #%% Packages
-from langchain_core.vectorstores import Chroma
+import chromadb
+from langchain_chroma import Chroma
 from langchain_community.embeddings.sentence_transformer import SentenceTransformerEmbeddings
 from pprint import pprint
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
+from langchain_ollama import ChatOllama
 load_dotenv()
 
 #%% Embeddings Model
 embeddings_model = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
 
-#%% connect to the database
-persistent_db_path = "db"
-db_client = Chroma(persist_directory=persistent_db_path, embedding_function=embeddings_model)
+# #%% connect to the database
+# persistent_db_path = "db"
+# db_client = Chroma(persist_directory=persistent_db_path, embedding_function=embeddings_model)
+
+# %% connect to the database in local docker
+chroma_client = chromadb.HttpClient(host="localhost", port=8000)
+db_client = Chroma(
+    client=chroma_client,
+    collection_name="docs",
+    embedding_function=embeddings_model,
+)
 
 
 # %% LLM Setup
-# available models: https://console.groq.com/docs/models
-MODEL = "llama-3.1-8b-instant"
-llm = ChatGroq(model=MODEL, temperature=0)
+# Available models: https://ollama.com/search
+MODEL = "phi3:mini"
+llm = ChatOllama(model=MODEL, temperature=0)
 
 # %% RAG Chat Function
 def rag_chat(user_query: str, k: int = 5):
