@@ -1,7 +1,7 @@
 FROM ollama/ollama:latest
 
 # Default model (can be overridden at runtime)
-ENV OLLAMA_MODEL=llama3
+ENV OLLAMA_MODEL=phi3:mini
 
 # Copy our entrypoint script into the image
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh

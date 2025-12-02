@@ -12,14 +12,16 @@ load_dotenv()
 # %% OpenAI models
 # 
 model = ChatOllama(
-    model="llama3",            # name from `ollama list`
+    model="phi3:mini",            # name from `ollama list`
     # base_url="http://localhost:11434",  # default, override if needed
+    num_predict=256,
+    temperature=0.2,
 )
 
 
 # # %% OpenAI models
 # # https://platform.openai.com/docs/models/overview
-# MODEL_NAME = 'gpt-3.5-turbo'
+# MODEL_NAME = 'gpt-4.1-mini'
 # model = ChatOpenAI(
 #                     model_name=MODEL_NAME,
 #                     temperature=0.5, # controls creativity

@@ -1,11 +1,9 @@
-version: "3.9"
-
 services:
   ollama:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: ollama-llama3
+    container_name: ollama-phi3-mini
     ports:
       - "11434:11434"
     volumes:
@@ -13,7 +11,7 @@ services:
       - ollama-data:/root/.ollama
     environment:
       # Change this if you want a different default model
-      - OLLAMA_MODEL=llama3
+      - OLLAMA_MODEL=phi3:mini
     restart: unless-stopped
 
     # --- Optional GPU support on Linux with NVIDIA ---
