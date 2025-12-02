@@ -1,6 +1,7 @@
 
 #%% Packages
-from langchain_core.vectorstores import Chroma
+import chromadb
+from langchain_chroma import Chroma
 from langchain_community.embeddings.sentence_transformer import SentenceTransformerEmbeddings
 from pprint import pprint
 
@@ -8,9 +9,17 @@ from pprint import pprint
 embeddings_model = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
 
 
-#%% connect to the database
-persistent_db_path = "db"
-db_client = Chroma(persist_directory=persistent_db_path, embedding_function=embeddings_model)
+# #%% connect to the database
+# persistent_db_path = "db"
+# db_client = Chroma(persist_directory=persistent_db_path, embedding_function=embeddings_model)
+
+# %% connect to the database in local docker
+chroma_client = chromadb.HttpClient(host="localhost", port=8000)
+db_client = Chroma(
+    client=chroma_client,
+    collection_name="docs",
+    embedding_function=embeddings_model,
+)
 
 # %% get all objects
 res = db_client.get()
