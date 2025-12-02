@@ -23,6 +23,19 @@ services:
     #           count: all
     #           capabilities: ["gpu"]
 
+
+  chromadb:
+    image: chromadb/chroma:latest 
+    container_name: chromadb
+    ports:
+      - "8000:8000"                # host:container
+    volumes:
+      - ./chroma_data:/chroma/chroma
+    environment:
+      - IS_PERSISTENT=TRUE
+      - PERSIST_DIRECTORY=/chroma/chroma   # where data is stored inside the container
+      - ANONYMIZED_TELEMETRY=FALSE         # or TRUE if you’re happy sending telemetry
+
   postgres:
     image: postgres:16
     container_name: postgres

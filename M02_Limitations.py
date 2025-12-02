@@ -9,8 +9,8 @@ from langchain_ollama import ChatOllama
 from dotenv import load_dotenv
 load_dotenv()
 
-# %% OpenAI models
-# 
+# %% Local models
+# https://ollama.com/search
 model = ChatOllama(
     model="phi3:mini",            # name from `ollama list`
     # base_url="http://localhost:11434",  # default, override if needed

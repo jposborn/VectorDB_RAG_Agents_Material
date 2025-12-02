@@ -1,5 +1,5 @@
 #%% packages
-from langchain_core.document_loaders import Docx2txtLoader
+from langchain_community.document_loaders import Docx2txtLoader
 from langchain_community.embeddings.sentence_transformer import SentenceTransformerEmbeddings
 from langchain_openai.embeddings import OpenAIEmbeddings
 from transformers import AutoTokenizer
@@ -7,11 +7,11 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv(usecwd=True))
 #%% Embeddings Model
-# embeddings_model = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
+embeddings_model = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
 
 # %% OpenAI embeddings
 # https://platform.openai.com/docs/guides/embeddings/embedding-models
-embeddings_model = OpenAIEmbeddings(model='text-embedding-3-small')
+# embeddings_model = OpenAIEmbeddings(model='text-embedding-3-small')
 
 
 # %%

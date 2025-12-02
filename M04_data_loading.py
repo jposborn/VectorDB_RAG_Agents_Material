@@ -1,5 +1,6 @@
 #%% Packages
 from langchain_community.document_loaders import TextLoader, YoutubeLoader, WikipediaLoader, PyPDFLoader, DirectoryLoader, UnstructuredFileLoader, Docx2txtLoader
+
 from langchain_core.documents import Document
 import os
 from pprint import pprint
@@ -17,9 +18,10 @@ video_id = 'dyO3lGJnY7I'  # video: Getting Up & Running With Chroma DB | Generat
 video_url = f"{base_video_url}{video_id}"
 loader = YoutubeLoader.from_youtube_url(
     video_url, 
-    add_video_info=True, 
-    language=['en', 'es'], 
-    translation='en')
+    add_video_info=False, 
+    language=['en'], 
+    # translation='en'
+    )
 
 docs_youtube = loader.load()
 
@@ -48,21 +50,24 @@ docs_word = loader.load()
 #%%
 docs_word[0].page_content
 
-# %% iterate over a complete folder
-# get all files in folder
-file_paths = [os.path.join('data', f) for f in os.listdir('data') if os.path.isfile(os.path.join('data', f))]
-file_paths
-#%% load all files
-# supported file types:
-# https://docs.unstructured.io/open-source/installation/full-installation
-# pip install unstructured[all-docs]
-docs_unstructured = []
-for file_path in file_paths[:2]:
-    print(file_path)
-    loader = UnstructuredFileLoader(file_path)
-    docs_unstructured.append(loader.load())
 
-# %%
-docs_unstructured
+# TODO Fix dependencies for unstructured data loaders
+
+# # %% iterate over a complete folder
+# # get all files in folder
+# file_paths = [os.path.join('data', f) for f in os.listdir('data') if os.path.isfile(os.path.join('data', f))]
+# file_paths
+# #%% load all files
+# # supported file types:
+# # https://docs.unstructured.io/open-source/installation/full-installation
+# # pip install unstructured[all-docs]
+# docs_unstructured = []
+# for file_path in file_paths[:2]:
+#     print(file_path)
+#     loader = UnstructuredFileLoader(file_path)
+#     docs_unstructured.append(loader.load())
+
+# # %%
+# docs_unstructured
 
 # %%

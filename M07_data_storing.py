@@ -1,9 +1,10 @@
 #%% Packages
 import os
-from langchain_core.document_loaders import TextLoader
+import chromadb
+from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.embeddings.sentence_transformer import SentenceTransformerEmbeddings
-from langchain_core.vectorstores import Chroma
+from langchain_chroma import Chroma
 from langchain_core.documents import Document
 from langchain_community.document_loaders import GutenbergLoader
 
@@ -27,9 +28,17 @@ def process_data(url: str, book_title: str) -> list[Document]:
 #%% Embeddings Model
 embeddings_model = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
 
-# %% connect to the database
-persistent_db_path = "db"
-db_client = Chroma(persist_directory=persistent_db_path, embedding_function=embeddings_model)
+# # %% connect to the sqlite database
+# persistent_db_path = "db"
+# db_client = Chroma(persist_directory=persistent_db_path, embedding_function=embeddings_model)
+
+# %% connect to the database in local docker
+chroma_client = chromadb.HttpClient(host="localhost", port=8000)
+db_client = Chroma(
+    client=chroma_client,
+    collection_name="docs",
+    embedding_function=embeddings_model,
+)
 
 #%% Text Import from Project Gutenberg
 dracula_url = "https://www.gutenberg.org/cache/epub/345/pg345.txt"
