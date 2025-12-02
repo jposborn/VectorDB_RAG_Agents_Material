@@ -1,14 +1,15 @@
-#%% Packages
+# %% Packages
 import chromadb
 from langchain_chroma import Chroma
-from langchain_community.embeddings.sentence_transformer import SentenceTransformerEmbeddings
-from pprint import pprint
+from langchain_community.embeddings.sentence_transformer import (
+    SentenceTransformerEmbeddings,
+)
 from dotenv import load_dotenv
-from langchain_groq import ChatGroq
 from langchain_ollama import ChatOllama
+
 load_dotenv()
 
-#%% Embeddings Model
+# %% Embeddings Model
 embeddings_model = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
 
 # #%% connect to the database
@@ -29,6 +30,7 @@ db_client = Chroma(
 MODEL = "phi3:mini"
 llm = ChatOllama(model=MODEL, temperature=0)
 
+
 # %% RAG Chat Function
 def rag_chat(user_query: str, k: int = 5):
     retrieved_docs = db_client.similarity_search(query=user_query, k=k)
@@ -43,22 +45,38 @@ def rag_chat(user_query: str, k: int = 5):
     )
 
     messages = [
-        ("system", "You are an expert assistant providing information strictly based on the context provided to you. Your task is to answer questions or provide information only using the details given in the current context. Do not reference any external knowledge or information not explicitly mentioned in the context. If the context does not contain sufficient information to answer a question, clearly state that the information is not available in the provided context."),
-        ("human", query_and_context)
-    ]
-    
+    (
+        "system",
+        (
+            "You are an expert assistant providing information strictly based on the "
+            "context provided to you. Your task is to answer questions or provide "
+            "information only using the details given in the current context. Do not "
+            "reference any external knowledge or information not explicitly mentioned "
+            "in the context. If the context does not contain sufficient information to "
+            "answer a question, clearly state that the information is not available in "
+            "the provided context."
+        ),
+    ),
+    ("human", query_and_context),
+]
+
     res = llm.invoke(messages)
     return res.content
 
-#%% TESTING
+
+# %% TESTING
 # check if it only uses the provided context
 user_query = "Where do the Olympic Games 2024 take place?"
 rag_chat(user_query)
 # %% try it out
 user_query = "Where does Dracula live?"
 rag_chat(user_query)
+
+
 # %% RAG Chat with style
-def rag_chat_add_style_language(user_query: str, k: int = 5, style: str = "formal", language: str = "english"):
+def rag_chat_add_style_language(
+    user_query: str, k: int = 5, style: str = "formal", language: str = "english"
+):
     retrieved_docs = db_client.similarity_search(query=user_query, k=k)
     retrieved_docs_text = [doc.page_content for doc in retrieved_docs]
     retrieved_docs_text
@@ -71,10 +89,21 @@ def rag_chat_add_style_language(user_query: str, k: int = 5, style: str = "forma
     )
 
     messages = [
-        ("system", f"You are an expert assistant providing information strictly based on the context provided to you. Your task is to answer questions or provide information only using the details given in the current context. Do not reference any external knowledge or information not explicitly mentioned in the context. If the context does not contain sufficient information to answer a question, clearly state that the information is not available in the provided context. You should answer in a {style} style and in {language} language."),
-        ("human", query_and_context)
-    ]
-    
+    (
+        "system",
+        (
+            "You are an expert assistant providing information strictly based on the "
+            "context provided to you. Your task is to answer questions or provide "
+            "information only using the details given in the current context. Do not "
+            "reference any external knowledge or information not explicitly mentioned "
+            "in the context. If the context does not contain sufficient information to "
+            "answer a question, clearly state that the information is not available in "
+            "the provided context. "
+            f"You should answer in a {style} style and in {language} language."
+        ),
+    ),
+    ("human", query_and_context),
+]
     res = llm.invoke(messages)
     return res.content
 
@@ -82,5 +111,5 @@ def rag_chat_add_style_language(user_query: str, k: int = 5, style: str = "forma
 # %%
 user_query = "What happens after Dracula bites someone?"
 # default of 5 docs does not hold the answer, try with 10
-rag_chat_add_style_language(user_query, style="Shakespearean", language="english",  k=10)
+rag_chat_add_style_language(user_query, style="Shakespearean", language="english", k=10)
 # %%

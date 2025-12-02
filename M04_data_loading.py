@@ -1,38 +1,41 @@
-#%% Packages
-from langchain_community.document_loaders import TextLoader, YoutubeLoader, WikipediaLoader, PyPDFLoader, DirectoryLoader, UnstructuredFileLoader, Docx2txtLoader
+# %% Packages
+from langchain_community.document_loaders import (
+    TextLoader,
+    YoutubeLoader,
+    WikipediaLoader,
+    PyPDFLoader,
+    Docx2txtLoader,
+)
 
-from langchain_core.documents import Document
-import os
 from pprint import pprint
 
 # %% Text Import from Markdown File
-file_path = 'data/chromadb_cheatsheet.md'
+file_path = "data/chromadb_cheatsheet.md"
 loader = TextLoader(file_path)
 docs_markdown = loader.load()
 
-#%%
+# %%
 docs_markdown[0].page_content
 # %% load youtube video transcript
-base_video_url = 'https://www.youtube.com/watch?v='
-video_id = 'dyO3lGJnY7I'  # video: Getting Up & Running With Chroma DB | Generative AI | Vector Database
+base_video_url = "https://www.youtube.com/watch?v="
+video_id = "dyO3lGJnY7I"  # video: Getting Up & Running With Chroma DB | Generative AI | Vector Database
 video_url = f"{base_video_url}{video_id}"
 loader = YoutubeLoader.from_youtube_url(
-    video_url, 
-    add_video_info=False, 
-    language=['en'], 
+    video_url,
+    add_video_info=False,
+    language=["en"],
     # translation='en'
-    )
+)
 
 docs_youtube = loader.load()
 
-#%% check the content
+# %% check the content
 pprint(docs_youtube[0].page_content)
 
 # %% wikipedia
-loader = WikipediaLoader(query='Vector Database', 
-                         lang='en', 
-                         load_max_docs=1, 
-                         doc_content_chars_max=100000)
+loader = WikipediaLoader(
+    query="Vector Database", lang="en", load_max_docs=1, doc_content_chars_max=100000
+)
 docs_wikipedia = loader.load()
 
 # %% get the first element
@@ -42,12 +45,12 @@ file_path = "data/Retrieval Augmented Generation.pdf"
 loader = PyPDFLoader(file_path)
 docs_pdf = loader.load()
 
-#%% Word Document
+# %% Word Document
 file_path = "data/Vector Databases.docx"
 loader = Docx2txtLoader(file_path)
 docs_word = loader.load()
 
-#%%
+# %%
 docs_word[0].page_content
 
 
