@@ -1,11 +1,13 @@
 # %% Packages
 import chromadb
+import os
 from langchain_chroma import Chroma
 from langchain_community.embeddings.sentence_transformer import (
     SentenceTransformerEmbeddings,
 )
 from dotenv import load_dotenv
 from langchain_ollama import ChatOllama
+from langchain_openai import ChatOpenAI
 
 load_dotenv()
 
@@ -25,10 +27,18 @@ db_client = Chroma(
 )
 
 
-# %% LLM Setup
-# Available models: https://ollama.com/search
-MODEL = "phi3:mini"
-llm = ChatOllama(model=MODEL, temperature=0)
+# # %% LLM Setup
+# # Available models: https://ollama.com/search
+# MODEL = "phi3:mini"
+# llm = ChatOllama(model=MODEL, temperature=0)
+
+# %% OpenAI models
+# https://platform.openai.com/docs/models/overview
+MODEL_NAME = 'gpt-5-nano'
+llm = ChatOpenAI(
+                    model_name=MODEL_NAME,
+                    temperature=0, # controls creativity
+                    api_key=os.getenv('OPENAI_API_KEY'))
 
 
 # %% RAG Chat Function
