@@ -4,12 +4,21 @@ from langchain_groq import ChatGroq
 from crewai import Agent, Task, Crew, Process
 from pprint import pprint
 from dotenv import load_dotenv
+from langchain_openai import ChatOpenAI
 
 load_dotenv()
 
-# %% Manager-LLM
-MODEL = "llama-3.1-70b-versatile"
-llm = ChatGroq(model=MODEL, temperature=0, api_key=os.getenv("GROQ_API_KEY"))
+# # %% Manager-LLM
+# MODEL = "llama-3.1-70b-versatile"
+# llm = ChatGroq(model=MODEL, temperature=0, api_key=os.getenv("GROQ_API_KEY"))
+
+# %% OpenAI models
+# https://platform.openai.com/docs/models/overview
+MODEL_NAME = 'gpt-5-nano'
+llm = ChatOpenAI(
+                    model_name=MODEL_NAME,
+                    temperature=0, # controls creativity
+                    api_key=os.getenv('OPENAI_API_KEY'))
 
 
 # %% Agents
