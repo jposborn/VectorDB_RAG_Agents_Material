@@ -12,3 +12,7 @@ Please install the packages based on requirements.txt.
 pip install -r requirements.txt
 ```
 
+## Environment
+- OPENAI_API_KEY=
+- SERPER_API_KEY=
+
